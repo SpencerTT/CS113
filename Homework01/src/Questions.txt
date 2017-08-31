@@ -1,0 +1,8 @@
+Spencer Thompson
+Homework01 Questions
+8/31/17
+
+1. The program guesses the solution in less than 20 guesses in every case except the worst case scenario, (6, 10, 6).
+	Theory 1 always results in 1 guess, 2 in 20 guesses, and 3 results in anything from 1-20.
+2. It is nice that the algorithm manages to guess within twenty tries, but it is unfortunate that the farther away from
+	(1, 1, 1) you are in your solution, the longer it is going to take to solve that solution, (6, 10, 6) being the farthest.
