@@ -476,6 +476,7 @@ public class ThompsonList<E> implements List<E>
 					}
 				}
 				prev = aNode;
+				size++;
 				index++;
 			}
 
@@ -521,8 +522,9 @@ public class ThompsonList<E> implements List<E>
 						prev = null;
 						System.out.println("List is now empty");
 					}
-					size--;
 					last = null;
+					size--;
+					index--;
 				}
 				else
 				{
