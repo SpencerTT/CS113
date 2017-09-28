@@ -6,6 +6,7 @@
  *
  */
 
+@SuppressWarnings("rawtypes")
 public class Term implements Comparable
 {
 	private int coefficient;

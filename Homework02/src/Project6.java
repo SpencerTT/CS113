@@ -1,4 +1,4 @@
-import java.util.Scanner
+//import java.util.Scanner;
 
 /**
  * Project6.java : Computes the area and perimeter of selected figures, with updates.
@@ -20,6 +20,7 @@ public class Project6
 	 * 
 	 * @param args command line arguments (unused)
 	 */
+	/*
 	public static void main(String[] args)
 	{
 		Shape myShape;
@@ -32,10 +33,11 @@ public class Project6
 		displayResult(myShape, perimeter, area);//Display the result
 		System.exit(0);							//Edit the program
 	}
-	
+	*/
 	/** Ask the user for the type of figure
 	 * @return An instance of the selected shape
 	*/
+	/*
 	public static Shape getShape()
 	{
 		Scanner in = new Scanner(System.in);
@@ -70,15 +72,18 @@ public class Project6
 			return null;
 		}
 	}
+	*/
 	
 	/**Display the result of the computation
 	 @param myShape The selected figure
 	 @param perim The perimeter of the figure
 	 @param area The area of the figure
 	*/
+	/*
 	private static void displayResult(Shape myShape, double perim, double area)
 	{
 		System.out.println(myShape);
 		System.out.printf("The perimeter is %.2f%nThe area is %.2f%n", perim, area);
 	}
+	*/
 }
