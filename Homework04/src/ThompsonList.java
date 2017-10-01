@@ -715,6 +715,7 @@ public class ThompsonList<E> implements List<E>
 		 * @param other The other TNode to compare against
 		 * @return True if they have the same data, false if not
 		 */
+		@SuppressWarnings("unused")
 		public boolean equals(TNode<E> other)
 		{
 			return data.equals(other.getData());
