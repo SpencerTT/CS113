@@ -1,13 +1,13 @@
 import java.util.ArrayList;
 
 /**
- * Lab07.java : A Driver program test out ArrayStack
+ * ArrayStack.java : A class that uses an ArrayList to function as a Stack
  * 
  * @author Spencer Thompson
  * @version 1.0
  *
  */
-public class ArrayStack<E>
+public class ArrayStack<E> implements Stack<E>
 {
 	private ArrayList<E> theData;
 	
@@ -45,6 +45,7 @@ public class ArrayStack<E>
 	 * @param item Item to be added to the stack
 	 * @return the item that was added to the stack
 	 */
+	
 	public E push(E item)
 	{
 		theData.add(item);

@@ -1,3 +1,11 @@
+/**
+ * Palindrome.java : A class that can test to see if a string is a palindrome
+ * 
+ * @author Spencer Thompson
+ * @version 1.0
+ *
+ */
+
 public class Palindrome
 {
 	
