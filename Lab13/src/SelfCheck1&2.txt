@@ -1,0 +1,15 @@
+1. a. ISBN; Guaranteed unique and relatively unchanging length
+   b. Player name; The only possibly unique value
+   c. Model number; Was most specific of fields given
+   d. Section number, Entirely unique to each class
+2. 	this: 1
+	line: 1 2 3
+	is: 1 2
+	first: 1
+	and: 2
+	2: 2
+	second: 2
+	followed: 3
+	by: 3
+	the: 3
+	third: 3

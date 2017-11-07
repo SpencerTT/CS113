@@ -1,0 +1,15 @@
+1. create empty set s
+2. s: hello, returns true //adds unique value to s set
+3. s: hello, bye, returns true //adds another unique value to s set
+4. s: hello, bye, returns false //attempts and fails to add set s to set s due to duplicate values
+5. create empty set t
+6. s: hello, bye; t: 123, returns true //adds unique value to t set
+7. s: hello, bye, 123; t: 123 //union between set s and t stored in set s
+8. s: hello, bye, 123; t: 123, prints true //tests if all values of set t are in set s
+9. s: hello, bye, 123; t: 123, prints false //tests if all values of set s are in set t
+10. s: hello, bye, 123; t: 123, prints false //tests if set s contains "ace"
+11. s: hello, bye, 123; t: 123, prints true //tests if set s contains "123"
+12. s: 123; t: 123 //retains all values in set s that are in set t
+13. s: 123; t: 123, prints true //tests if set s contains "123"
+14. s: 123; t: 123 //retains all values in set t that are in set s
+15. s: 123; t: 123, prints true //tests if set t contains "123"

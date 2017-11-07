@@ -1,4 +1,10 @@
-
+/**
+ * HeapDriver.java : A driver class that tests four possible configurations of min/max heaps with/without Comparators
+ * 
+ * @author Spencer Thompson
+ * @version 1.0
+ *
+ */
 public class HeapDriver
 {
 	public static void main(String[] args)
@@ -33,7 +39,7 @@ public class HeapDriver
 		max.insert(4);
 		max.insert(1);
 		max.insert(2);
-		System.out.println(max); 
+		System.out.println(max); //Should form a MaxHeap (and does)
 		Integer testMax = max.remove();
 		System.out.println(testMax);
 		System.out.println(max);

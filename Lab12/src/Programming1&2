@@ -1,0 +1,21 @@
+1.  a. c = a.addAll(b);
+    b. c = a.retainAll(b);
+    c. c = a.removeAll(b);
+    d. if (a.containsAll(b))
+       {
+           c = a;
+       }
+       else
+       {
+           c = b;
+       }
+2. toString()
+   {
+       Iterator it = iterator();
+       String message = "[";
+       while (it.hasNext())
+       {
+           message += it.next().toString() + ", ";
+       }
+       message += "]";
+   }

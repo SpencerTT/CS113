@@ -1,11 +1,22 @@
 import java.util.ArrayList;
 import java.util.Comparator;
-
+/**
+ * Heap.java : An abstract class that stores a heap as an ArrayList and has an optional Comparator
+ * 
+ * @author Spencer Thompson
+ * @version 1.0
+ *
+ */
 public abstract class Heap<E extends Comparable<E>>
 {
 	protected ArrayList<E> heap;
 	protected Comparator<E> comp;
 	
+	/**
+	 * A quick way to switch two values in the heap given two indices
+	 * @param a The first index
+	 * @param b The second index
+	 */
 	protected void swap(int a, int b)
 	{
 		E temp = heap.get(a);
@@ -13,12 +24,19 @@ public abstract class Heap<E extends Comparable<E>>
 		heap.set(b, temp);
 	}
 	
+	/**
+	 * The string representation of a Heap
+	 */
 	public String toString()
 	{
 		return heap.toString();
 	}
 	
-	
+	/**
+	 * The method responsible for correctly inserting an element into to heap
+	 * 
+	 * @param obj The element to insert into the heap
+	 */
 	public void insert(E obj)
 	{
 		heap.add(obj);
@@ -31,6 +49,12 @@ public abstract class Heap<E extends Comparable<E>>
 			parent = (child - 1) / 2;
 		}
 	}
+	
+	/**
+	 * The method responsible for correctly removing an element from the heap
+	 * 
+	 * @return The element that was removed from the heap
+	 */
 	public E remove()
 	{
 		if (heap.isEmpty())
@@ -80,5 +104,12 @@ public abstract class Heap<E extends Comparable<E>>
 		}
 	}
 	
+	/**
+	 * A method to compare two elements for correct placement in the heap
+	 * 
+	 * @param e1 The first element for comparison
+	 * @param e2 The second element for comparison
+	 * @return An int representation of the result of the comparison (-1 less than, 0 equal, 1 greater than)
+	 */
 	public abstract int compare(E e1, E e2);
 }

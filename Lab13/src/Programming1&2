@@ -1,0 +1,12 @@
+1.  private Map<String, Integer> wordCount = new Map<String, Integer>();
+    for (String word: paper)
+    {
+        if (wordCount.get(word) == null)
+        {
+            wordCount.put(word, 1);
+        }
+        else
+        {
+            wordCount.put(word, wordCount.get(word) + 1);
+        }
+    }
