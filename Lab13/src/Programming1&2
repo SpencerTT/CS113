@@ -1,12 +1,16 @@
 1.  private Map<String, Integer> wordCount = new Map<String, Integer>();
-    for (String word: paper)
+2.  public void buildWordCounts(String paper)
     {
-        if (wordCount.get(word) == null)
-        {
-            wordCount.put(word, 1);
-        }
-        else
-        {
-            wordCount.put(word, wordCount.get(word) + 1);
-        }
-    }
+    	String[] words = paper.split(" ");
+	    for (int x = 0; x < words.length; x++)
+	    {
+	        if (wordCount.get(words[x]) == null)
+	        {
+	            wordCount.put(words[x], 1);
+	        }
+	        else
+	        {
+	            wordCount.put(words[x], wordCount.get(words[x]) + 1);
+	        }
+	    }
+	}
