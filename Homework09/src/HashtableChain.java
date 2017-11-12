@@ -1,5 +1,6 @@
 import java.util.AbstractMap;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Set;
 
 public class HashtableChain<K, V> extends AbstractMap<K, V> implements KWHashMap<K, V>
@@ -105,8 +106,18 @@ public class HashtableChain<K, V> extends AbstractMap<K, V> implements KWHashMap
 	@SuppressWarnings("unchecked")
 	private void rehash()
 	{
-		LinkedList<Entry<K, V>>[] bigger = new LinkedList[table.length * 2 + 1];
-		
+		LinkedList<Entry<K, V>>[] copy = table;
+		table = new LinkedList[table.length * 2 + 1];
+		for(int x = 0; x < copy.length; x++)
+		{
+			if (copy[x] != null)
+			{
+				for(Entry<K, V> pair : copy[x])
+				{
+					put(pair.getKey(), pair.getValue());
+				}
+			}
+		}
 	}
 	
 	@Override
@@ -117,7 +128,7 @@ public class HashtableChain<K, V> extends AbstractMap<K, V> implements KWHashMap
 	}
 	
 	@SuppressWarnings("hiding")
-	public class Entry<K, V>
+	public class Entry<K, V> implements Map.Entry<K, V>
 	{
 		private K key;
 		private V value;
@@ -143,4 +154,5 @@ public class HashtableChain<K, V> extends AbstractMap<K, V> implements KWHashMap
 			return old;
 		}
 	}
+	
 }
