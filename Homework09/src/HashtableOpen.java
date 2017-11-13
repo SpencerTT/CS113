@@ -1,13 +1,19 @@
 import java.util.AbstractMap;
-import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * HashTableOpen.java : Wasn't supposed to make it, but did 1/2 of it anyways, LOL.
+ * 
+ * @author Spencer Thompson
+ * @version 1.0
+ *
+ */
 public class HashtableOpen<K, V> extends AbstractMap<K, V> implements KWHashMap<K, V>
 {
 	private Entry<K, V>[] table;
-	private static int START_CAPACITY = 101;
-	private static double LOAD_THRESHOLD = .75;
+	private int START_CAPACITY = 101;
+	private double LOAD_THRESHOLD = .75;
 	private int numKeys;
 	private int numDeletes;
 	private final Entry<K, V> DELETED = new Entry<K, V>(null, null);
