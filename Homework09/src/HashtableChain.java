@@ -8,13 +8,37 @@ public class HashtableChain<K, V> extends AbstractMap<K, V> implements KWHashMap
 	private LinkedList<Entry<K, V>>[] table;
 	private int numKeys;
 	
-	private static final int CAPACITY = 4;
-	private static final double LOAD_THRESHOLD = 3.0;
+	private static int START_CAPACITY = 101;
+	private static double LOAD_THRESHOLD = 3.0;
 	
 	@SuppressWarnings("unchecked")
 	public HashtableChain()
 	{
-		table = new LinkedList[CAPACITY];
+		table = new LinkedList[START_CAPACITY];
+	}
+	
+	@SuppressWarnings("unchecked")
+	public HashtableChain(int start, double load)
+	{
+		START_CAPACITY = start;
+		LOAD_THRESHOLD = load;
+		table = new LinkedList[START_CAPACITY];
+	}
+	
+	public String toString()
+	{
+		StringBuilder sb = new StringBuilder();
+		for (int x = 0; x < table.length; x++)
+		{
+			if (table[x] != null)
+			{
+				for(Entry<K, V> pair : table[x])
+				{
+					sb.append(pair.toString() + "\n");
+				}
+			}
+		}
+		return sb.toString();
 	}
 	
 	public int size()
@@ -70,7 +94,7 @@ public class HashtableChain<K, V> extends AbstractMap<K, V> implements KWHashMap
 		}
 		table[index].add(new Entry<K, V>(key, value));
 		numKeys++;
-		if  ((double) (numKeys/table.length) > LOAD_THRESHOLD)
+		if  ((1.0*numKeys/table.length) > LOAD_THRESHOLD)
 		{
 			rehash();
 		}
@@ -106,7 +130,10 @@ public class HashtableChain<K, V> extends AbstractMap<K, V> implements KWHashMap
 	@SuppressWarnings("unchecked")
 	private void rehash()
 	{
-		LinkedList<Entry<K, V>>[] copy = table;
+		System.out.println("Rehashing at " + numKeys + " keys... length: " + table.length);
+		LinkedList<Entry<K, V>>[] copy = new LinkedList[table.length];
+		System.arraycopy(table, 0, copy, 0, table.length);
+		numKeys = 0;
 		table = new LinkedList[table.length * 2 + 1];
 		for(int x = 0; x < copy.length; x++)
 		{
@@ -128,7 +155,7 @@ public class HashtableChain<K, V> extends AbstractMap<K, V> implements KWHashMap
 	}
 	
 	@SuppressWarnings("hiding")
-	public class Entry<K, V> implements Map.Entry<K, V>
+	private class Entry<K, V> implements Map.Entry<K, V>
 	{
 		private K key;
 		private V value;
@@ -152,6 +179,11 @@ public class HashtableChain<K, V> extends AbstractMap<K, V> implements KWHashMap
 			V old = getValue();
 			this.value = value;
 			return old;
+		}
+		
+		public String toString()
+		{
+			return key.toString() + " = " + value.toString();
 		}
 	}
 	
