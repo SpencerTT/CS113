@@ -81,6 +81,11 @@ public class HashtableDriver
 		System.out.println("Full map: \n" + map.toString());
 	}
 	
+	/**
+	 * A method to test out data and functionality on a huge, random scale
+	 * 
+	 * @param map The AbstractMap where the data resides (AbstractMap so I could use HashtableOpen as well if needed...)
+	 */
 	public static void stressTest(AbstractMap<Integer, Integer> map)
 	{
 		for(int x = 0; x < 100000; x++)
