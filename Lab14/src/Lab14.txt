@@ -1,0 +1,81 @@
+Self Check 2:
+Name  hashCode()  %7  %13
+-------------------------
+Tom   84274       1   8
+Dick  2129869     0   1
+Harry 69496448    0   8
+Sam   82879       6   4
+Pete  2484038     4   11
+
+Open:
+Pos %7     %13
+----------------
+0   Dick
+1   Tom   Dick
+2   Harry
+3
+4   Pete  Sam
+5
+6   Sam
+7
+8         Tom
+9         Harry
+10
+11        Pete
+12
+
+Chain:
+Pos %7         %13
+-------------------------
+0   Dick-Harry
+1   Tom        Dick
+2
+3
+4   Pete       Sam
+5
+6   Sam
+7
+8              Tom-Harry
+9
+10
+11             Pete
+12
+
+Self Check 3:
+Insertions: 14 -> 24 -> 6 -> 20
+Collisions: 24 with 14 & 20 with 24
+Chaining table:
+pos  key(s)
+-----------
+0    20
+1    6
+2
+3
+4    14-24
+
+Programming 1:
+
+public static int find(Entry<K, V>[] table, Object key)
+{
+    int index = key.hashCode() % table.length;
+	if (index < 0)
+	{
+		index += table.length;
+	}
+	while (table[index] != null && !key.equals(table[index].getKey()))
+	{
+		index++;
+		if (index >= table.length)
+		{
+			index = 0;
+		}
+	}
+	if (key.equals(table[index].getKey()))
+	{
+		return index;
+	}
+	else
+	{
+		return -1;
+	}
+}
