@@ -2,6 +2,7 @@ import java.util.AbstractMap;
 import java.util.AbstractSet;
 import java.util.Iterator;
 import java.util.Map.Entry;
+import java.util.Scanner;
 /**
  * HeapDriver.java : A driver class that tests the methods of HashtableChain and it's inner classes.
  * 
@@ -22,6 +23,8 @@ public class HashtableDriver
 		smallTest(chain);
 		chain = new HashtableChain<Integer, Integer>();
 		bigTest(chain);
+		chain = new HashtableChain<Integer, Integer>();
+		stressTest(chain);
 	}
 	
 	/**
@@ -33,12 +36,14 @@ public class HashtableDriver
 	{
 		map.put(0, 0);
 		System.out.println("Get 0: " + map.get(0));
-		map.put(5, 5);
+		map.put(4, 4);
 		System.out.println("Full map: \n" + map.toString());
 		map.put(2, 2);
 		System.out.println("Full map: \n" + map.toString());
 		map.remove(0);
 		System.out.println("After remove 0: \n" + map.toString());
+		map.put(2, 4);
+		System.out.println("Full map after change 2: \n" + map.toString());
 		AbstractSet<Entry<Integer, Integer>> set = (AbstractSet<Entry<Integer, Integer>>) map.entrySet();
 		System.out.println("Set size: " + set.size());
 		Iterator<Entry<Integer, Integer>> it = set.iterator();
@@ -74,5 +79,22 @@ public class HashtableDriver
 		}
 		System.out.println("After total Removal: Set size: " + set.size());
 		System.out.println("Full map: \n" + map.toString());
+	}
+	
+	public static void stressTest(AbstractMap<Integer, Integer> map)
+	{
+		for(int x = 0; x < 100000; x++)
+		{
+			map.put((int) (Math.random()*320000), (int) (Math.random()*320000));
+		}
+		AbstractSet<Entry<Integer, Integer>> set = (AbstractSet<Entry<Integer, Integer>>) map.entrySet();
+		System.out.println("Set size: " + set.size());
+		System.out.print("Stare deep into hell? (y/n): ");
+		Scanner scan = new Scanner(System.in);
+		String choice = scan.nextLine();
+		if (choice.equals("y"))
+		{
+			System.out.println(map.toString());
+		}
 	}
 }

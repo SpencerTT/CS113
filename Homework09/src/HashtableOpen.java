@@ -45,9 +45,14 @@ public class HashtableOpen<K, V> extends AbstractMap<K, V> implements KWHashMap<
 		return sb.toString();
 	}
 	
+	/**
+	 * The current number of key-value pairs
+	 * 
+	 * @return The number of key-value pairs
+	 */
 	public int size()
 	{
-		return table.length;
+		return numKeys;
 	}
 	public boolean isEmpty()
 	{

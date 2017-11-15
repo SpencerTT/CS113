@@ -53,23 +53,25 @@ public class HashtableChain<K, V> extends AbstractMap<K, V> implements KWHashMap
 		{
 			if (table[x] != null)
 			{
+				sb.append(x + ": ");
 				for(Entry<K, V> pair : table[x])
 				{
-					sb.append(pair.toString() + "\n");
+					sb.append(pair.toString() + "  ");
 				}
+				sb.append("\n");
 			}
 		}
 		return sb.toString();
 	}
 	
 	/**
-	 * The current length of the table
+	 * The current number of key-value pairs
 	 * 
-	 * @return The length of the table
+	 * @return The number of key-value pairs
 	 */
 	public int size()
 	{
-		return table.length;
+		return numKeys;
 	}
 	
 	/**
@@ -184,7 +186,7 @@ public class HashtableChain<K, V> extends AbstractMap<K, V> implements KWHashMap
 	@SuppressWarnings("unchecked")
 	private void rehash()
 	{
-		System.out.println("Rehashing at " + numKeys + " keys... length: " + table.length);
+		System.out.println("Rehashing at " + numKeys + " keys with table length: " + table.length);
 		LinkedList<Entry<K, V>>[] copy = new LinkedList[table.length];
 		System.arraycopy(table, 0, copy, 0, table.length);
 		numKeys = 0;
@@ -311,6 +313,10 @@ public class HashtableChain<K, V> extends AbstractMap<K, V> implements KWHashMap
 			{
 				localIterator.remove();
 				numKeys--;
+				if (table[index].isEmpty())
+				{
+					table[index] = null;
+				}
 			}
 		}
 	}
