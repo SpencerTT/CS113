@@ -50,6 +50,8 @@ public class HashtableDriver
 		System.out.println("First item in set: " + it.next());
 		it.remove();
 		System.out.println("Full map after deletion of 2\n" + map.toString());
+		map.clear();
+		System.out.println("Full map after clear\n" + map.toString());
 	}
 	/**
 	 * A method to test out data and functionality on a large scale
@@ -101,5 +103,6 @@ public class HashtableDriver
 		{
 			System.out.println(map.toString());
 		}
+		scan.close();
 	}
 }
