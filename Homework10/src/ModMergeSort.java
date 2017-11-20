@@ -5,9 +5,20 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-
+/**
+ * ModMergeSort.java : A driver class that contains and tests the methods of ModMergeSort
+ * 
+ * @author Spencer Thompson
+ * @version 1.0
+ *
+ */
 public class ModMergeSort
 {
+	/**
+	 * main() method: Writes the unsorted numbers to the all.txt file,
+	 * runs a simple test of sort() (and merge()), and calls modMerge(10, true) 
+	 * @param args unused
+	 */
 	public static void main(String[] args)
 	{
 		try
@@ -39,6 +50,17 @@ public class ModMergeSort
 		System.out.println("Finished!");
 	}
 	
+	/**
+	 * Recursive method for breaking the thousands of numbers into workable chunks of data,
+	 * sorting them if it's the first pass through the recursion,
+	 * writing those sorted chunks into two files one at a time: left.txt and right.txt
+	 * each left and right chunk are merged together to form a larger chunk that is written into all.txt,
+	 * until all the values are back in all.txt.  This method is called recursively with (size*2, false)
+	 * until the file is completely sorted (when there is no right side / the size exceeds the total numbers)
+	 * 
+	 * @param size The size of the arrays to work with
+	 * @param first A boolean indicating if it is the first pass or not
+	 */
 	public static void modMerge(int size, boolean first)
 	{
 		ArrayList<int[]> listsl = new ArrayList<int[]>();
@@ -96,14 +118,12 @@ public class ModMergeSort
 				//System.out.println();
 			}
 		}
-		
-		FileWriter lfw;
-		FileWriter rfw;
+
 		try
 		{
-			lfw = new FileWriter("src/left.txt");
+			FileWriter lfw = new FileWriter("src/left.txt");
 			BufferedWriter lbw = new BufferedWriter(lfw);
-			rfw = new FileWriter("src/right.txt");
+			FileWriter rfw = new FileWriter("src/right.txt");
 			BufferedWriter rbw = new BufferedWriter(rfw);
 			for(int x = 0; x < listsl.size(); x++)
 			{
@@ -137,14 +157,18 @@ public class ModMergeSort
 		{
 			FileWriter fw = new FileWriter("src/all.txt");
 			BufferedWriter bw = new BufferedWriter(fw);
-			for (int x = 0; x < listsl.size(); x++)
+			FileReader lfr = new FileReader("src/left.txt");
+			BufferedReader lbr = new BufferedReader(lfr);
+			FileReader rfr = new FileReader("src/right.txt");
+			BufferedReader rbr = new BufferedReader(rfr);
+			while (lbr.ready())
 			{
-				int[] templ = listsl.get(x);
+				int[] templ = getArray(size, lbr);
 				int[] tempr;
 				int[] merger;
-				if (x < listsr.size())
+				if (rbr.ready())
 				{
-					tempr = listsr.get(x);
+					tempr = getArray(size, rbr);
 					merger = merge(templ, tempr);
 				}
 				else
@@ -170,6 +194,13 @@ public class ModMergeSort
 		}
 	}
 	
+	/**
+	 * Returns an array of data of size "size" from a file being read by BufferedReader br
+	 * 
+	 * @param size The size of the desired array
+	 * @param br The BufferedReader that the method will acquire the data from
+	 * @return An array of length "size" that was made by the last "size" entries in br
+	 */
 	public static int[] getArray(int size, BufferedReader br)
 	{
 		int[] list = new int[size];
@@ -211,6 +242,12 @@ public class ModMergeSort
 		return list;
 	}
 	
+	/**
+	 * Basic MergeSort logic for sorting the chunks of data on the first pass of modMerge
+	 * 
+	 * @param table The array to sort
+	 * @return The sorted array
+	 */
 	public static int[] sort(int[] table)
 	{
 		if (table.length > 1)
@@ -236,6 +273,13 @@ public class ModMergeSort
 		}
 	}
 	
+	/**
+	 * Basic merge logic used in sort and in modMerge to join two sorted arrays
+	 * 
+	 * @param left The left array to be merged
+	 * @param right The right array to be merged
+	 * @return A sorted array with all values of left and right
+	 */
 	public static int[] merge(int[] left, int[] right)
 	{
 		int[] merger = new int[left.length + right.length];
