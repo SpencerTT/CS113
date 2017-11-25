@@ -1,53 +1,43 @@
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
+import java.io.EOFException;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 /**
- * ModMergeSort.java : A driver class that contains and tests the methods of ModMergeSort
+ * ModMergeSort.java : A class that contains all the methods necessary
+ * to do a modified mergeSort on Comparable data
  * 
  * @author Spencer Thompson
  * @version 1.0
  *
  */
-public class ModMergeSort
+public class ModMergeSort<E extends Comparable<E>, Serializable>
 {
+	
 	/**
-	 * main() method: Writes the unsorted numbers to the all.txt file,
-	 * runs a simple test of sort() (and merge()), and calls modMerge(10, true) 
-	 * @param args unused
+	 * 0-arg constructor to write 9001 random numbers into the "all.txt" file.
+	 * Just gets things ready for the other methods.
+	 * 
 	 */
-	public static void main(String[] args)
+	public ModMergeSort()
 	{
 		try
 		{
-			FileWriter fw = new FileWriter("src/all.txt");
-			BufferedWriter bw = new BufferedWriter(fw);
+			FileOutputStream  afos = new FileOutputStream("src/all.txt");
+			ObjectOutputStream aoos = new ObjectOutputStream(afos);
 			for (int x = 0; x < 9001; x++)
 			{
-				bw.write( (int) (Math.random()*10000) + "\n" );
+				aoos.writeObject( new Integer((int) (Math.random()*10000)));
 			}
-			bw.close();
+			aoos.close();
 		}
 		catch (IOException e)
 		{
 			e.printStackTrace();
 		}
-		
-		System.out.println("Test: {5, 3, 6, 9, 8, 1, 7, 2, 4, 0} sorts to...");
-		int[] test = {5, 3, 6, 9, 8, 1, 7, 2, 4, 0};
-		int[] sorted = sort(test);
-		for (int x = 0; x < sorted.length; x++)
-		{
-			System.out.print(sorted[x] + ", ");
-		}
-		System.out.println();
-		
-		System.out.println("Now the big test...");
-		modMerge(10, true);
-		System.out.println("Finished!");
 	}
 	
 	/**
@@ -61,20 +51,24 @@ public class ModMergeSort
 	 * @param size The size of the arrays to work with
 	 * @param first A boolean indicating if it is the first pass or not
 	 */
-	public static void modMerge(int size, boolean first)
+	public void modMerge(int size, boolean first)
 	{
-		ArrayList<int[]> listsl = new ArrayList<int[]>();
-		ArrayList<int[]> listsr = new ArrayList<int[]>();
-		FileReader fr = null;
+		ArrayList<E[]> listsl = new ArrayList<E[]>();
+		ArrayList<E[]> listsr = new ArrayList<E[]>();
 		try
 		{
-			fr = new FileReader("src/all.txt");
-			BufferedReader br = new BufferedReader(fr);
+			FileInputStream fis = new FileInputStream("src/all.txt");
+			ObjectInputStream ois = new ObjectInputStream(fis);
 			int count = 0;
-			while(br.ready())
+			boolean found = true;
+			while(found)
 			{
-				int[] list = getArray(size, br);
-				if (count % 2 == 0)
+				E[] list = getArray(size, ois);
+				if (list.length < 1)
+				{
+					found = false;
+				}
+				else if (count % 2 == 0)
 				{
 					listsl.add(list);
 				}
@@ -97,9 +91,9 @@ public class ModMergeSort
 		//Sorting happens here
 		if (first)
 		{
-			for (int[] list : listsl)
+			for (E[] list : listsl)
 			{
-				int[] temp = sort(list);
+				E[] temp = sort(list);
 				for (int x = 0; x < list.length; x++)
 				{
 					list[x] = temp[x];
@@ -107,9 +101,9 @@ public class ModMergeSort
 				}
 				//System.out.println();
 			}
-			for (int[] list : listsr)
+			for (E[] list : listsr)
 			{
-				int[] temp = sort(list);
+				E[] temp = sort(list);
 				for (int x = 0; x < list.length; x++)
 				{
 					list[x] = temp[x];
@@ -121,32 +115,32 @@ public class ModMergeSort
 
 		try
 		{
-			FileWriter lfw = new FileWriter("src/left.txt");
-			BufferedWriter lbw = new BufferedWriter(lfw);
-			FileWriter rfw = new FileWriter("src/right.txt");
-			BufferedWriter rbw = new BufferedWriter(rfw);
+			FileOutputStream  lfos = new FileOutputStream("src/left.txt");
+			ObjectOutputStream loos = new ObjectOutputStream(lfos);
+			FileOutputStream  rfos = new FileOutputStream("src/right.txt");
+			ObjectOutputStream roos = new ObjectOutputStream(rfos);
 			for(int x = 0; x < listsl.size(); x++)
 			{
-				int[] temp = listsl.get(x);
+				E[] temp = listsl.get(x);
 				for (int y = 0; y < temp.length; y++)
 				{
-					lbw.write(temp[y] + "\n");
+					loos.writeObject(temp[y]);
 					//System.out.print(temp[y] + ", ");
 				}
 				//System.out.println();
 			}
 			for(int x = 0; x < listsr.size(); x++)
 			{
-				int[] temp = listsr.get(x);
+				E[] temp = listsr.get(x);
 				for (int y = 0; y < temp.length; y++)
 				{
-					rbw.write(temp[y] + "\n");
+					roos.writeObject(temp[y]);
 					//System.out.print(temp[y] + ", ");
 				}
 				//System.out.println();
 			}
-			lbw.close();
-			rbw.close();
+			loos.close();
+			roos.close();
 		}
 		catch (IOException e)
 		{
@@ -155,33 +149,35 @@ public class ModMergeSort
 		
 		try
 		{
-			FileWriter fw = new FileWriter("src/all.txt");
-			BufferedWriter bw = new BufferedWriter(fw);
-			FileReader lfr = new FileReader("src/left.txt");
-			BufferedReader lbr = new BufferedReader(lfr);
-			FileReader rfr = new FileReader("src/right.txt");
-			BufferedReader rbr = new BufferedReader(rfr);
-			while (lbr.ready())
+			FileOutputStream  afos = new FileOutputStream("src/all.txt");
+			ObjectOutputStream aoos = new ObjectOutputStream(afos);
+			FileInputStream lfis = new FileInputStream("src/left.txt");
+			ObjectInputStream lois = new ObjectInputStream(lfis);
+			FileInputStream rfis = new FileInputStream("src/right.txt");
+			ObjectInputStream rois = new ObjectInputStream(rfis);
+			
+			boolean end = false;
+			while (! end)
 			{
-				int[] templ = getArray(size, lbr);
-				int[] tempr;
-				int[] merger;
-				if (rbr.ready())
+				E[] templ = getArray(size, lois);
+				E[] tempr = getArray(size, rois);
+				E[] merger;
+				if (tempr.length != 0)
 				{
-					tempr = getArray(size, rbr);
 					merger = merge(templ, tempr);
 				}
 				else
 				{
 					merger = templ;
+					end = true;
 				}
 				
 				for (int y = 0; y < merger.length; y++)
 				{
-					bw.write(merger[y] + "\n");
+					aoos.writeObject(merger[y]);
 				}
 			}
-			bw.close();
+			aoos.close();
 		}
 		catch (IOException e)
 		{
@@ -195,34 +191,77 @@ public class ModMergeSort
 	}
 	
 	/**
+	 * Displays all of the sorted numbers in order to the user.
+	 * 
+	 */
+	public void display()
+	{
+		try
+		{
+			FileInputStream fis = new FileInputStream("src/all.txt");
+			ObjectInputStream ois = new ObjectInputStream(fis);
+			Integer temp;
+			do
+			{
+				temp = (Integer) ois.readObject();
+				if (temp != null)
+				{
+					System.out.println(temp);
+				}
+			}
+			while (temp != null);
+			ois.close();
+			
+		}
+		catch (EOFException e)
+		{
+			
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		catch (ClassNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	/**
 	 * Returns an array of data of size "size" from a file being read by BufferedReader br
 	 * 
 	 * @param size The size of the desired array
 	 * @param br The BufferedReader that the method will acquire the data from
 	 * @return An array of length "size" that was made by the last "size" entries in br
 	 */
-	public static int[] getArray(int size, BufferedReader br)
+	@SuppressWarnings("unchecked")
+	public E[] getArray(int size, ObjectInputStream ois)
 	{
-		int[] list = new int[size];
+		E[] list = (E[]) new Comparable [size];
 		int end = -1;
 		for (int x = 0; x < size; x++)
 		{
-			int read = -1;
+			E temp = null;
 			try
 			{
-				String temp = br.readLine();
-				if (temp != null)
-				{
-					read = Integer.parseInt(temp);
-				}
+				temp = (E) ois.readObject();
+			}
+			catch (ClassNotFoundException e)
+			{
+				e.printStackTrace();
+			}
+			catch (EOFException e)
+			{
+				
 			}
 			catch (IOException e)
 			{
 				e.printStackTrace();
 			}
-			if (read != -1)
+			
+			if (temp != null)
 			{
-				list[x] = read;
+				list[x] = temp;
 			}
 			else
 			{
@@ -232,8 +271,8 @@ public class ModMergeSort
 		}
 		if (end != -1)
 		{
-			int[] copy = list.clone();
-			list = new int[end];
+			E[] copy = list.clone();
+			list = (E[]) new Comparable[end];
 			for (int x = 0; x < list.length; x++)
 			{
 				list[x] = copy[x];
@@ -248,13 +287,14 @@ public class ModMergeSort
 	 * @param table The array to sort
 	 * @return The sorted array
 	 */
-	public static int[] sort(int[] table)
+	@SuppressWarnings("unchecked")
+	public E[] sort(E[] table)
 	{
 		if (table.length > 1)
 		{
 			int half = table.length / 2;
-			int[] left = new int[half];
-			int[] right = new int[table.length - half];
+			E[] left = (E[]) new Comparable[half];
+			E[] right = (E[]) new Comparable[table.length - half];
 			for (int x = 0; x < half; x++)
 			{
 				left[x] = table[x];
@@ -280,16 +320,17 @@ public class ModMergeSort
 	 * @param right The right array to be merged
 	 * @return A sorted array with all values of left and right
 	 */
-	public static int[] merge(int[] left, int[] right)
+	@SuppressWarnings("unchecked")
+	public E[] merge(E[] left, E[] right)
 	{
-		int[] merger = new int[left.length + right.length];
+		E[] merger = (E[]) new Comparable[left.length + right.length];
 		int li = 0;
 		int ri = 0;
 		int mi = 0;
 		
 		while (li < left.length && ri < right.length)
 		{
-			if (left[li] <= right[ri])
+			if (left[li].compareTo(right[ri]) < 0)
 			{
 				merger[mi] = left[li];
 				mi++;
