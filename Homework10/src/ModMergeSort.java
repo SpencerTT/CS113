@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * @version 1.0
  *
  */
-public class ModMergeSort<E extends Comparable<E>, Serializable>
+public class ModMergeSort<E extends Comparable<E>>
 {
 	
 	/**
