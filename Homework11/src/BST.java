@@ -28,7 +28,6 @@ public class BST<E extends Comparable<E>> extends BinaryTree<E> implements Searc
 		{
 			current.left = add(current.left, object);
 			return current;
-			
 		}
 		else
 		{
