@@ -10,16 +10,5 @@ public class AVLTreeDriver
 			tree.add(word);
 			System.out.println(tree.toString());
 		}
-		
-		/*
-		AVLTree<Integer> iTree = new AVLTree<Integer>();
-		iTree.add(1);
-		iTree.add(3);
-		iTree.add(2);
-		System.out.println(iTree.toString());
-		iTree.add(0);
-		iTree.add(-1);
-		System.out.println(iTree.toString());
-		*/
 	}
 }

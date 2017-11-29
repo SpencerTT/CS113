@@ -10,22 +10,26 @@ public class AVLTree<E extends Comparable<E>> extends BSTWithRotate<E>
 		root = add( (AVLNode<E>) root, object);
 		return addReturn;
 	}
+	
 	private AVLNode<E> add(AVLNode<E> current, E object)
 	{
 		if (current == null)
 		{
+			System.out.println("base case");
 			addReturn = true;
 			increase = true;
 			return new AVLNode<E>(object);
 		}
 		else if (object.compareTo(current.data) == 0)
 		{
-			increase = false;
+			System.out.println("equals case");
 			addReturn = false;
+			increase = false;
 			return current;
 		}
 		else if (object.compareTo(current.data) < 0)
 		{
+			System.out.println("< 0 case");
 			current.left = add( (AVLNode<E>) current.left, object);
 			
 			if (increase)
@@ -38,13 +42,14 @@ public class AVLTree<E extends Comparable<E>> extends BSTWithRotate<E>
 				if (current.balance < AVLNode.LEFT_HEAVY)
 				{
 					increase = false;
-					return rebalanceLeft(current);
+					current = rebalanceLeft(current);
 				}
 			}
 			return current;
 		}
 		else
 		{
+			System.out.println("> 0 case");
 			current.right = add( (AVLNode<E>) current.right, object);
 			
 			if (increase)
@@ -57,11 +62,22 @@ public class AVLTree<E extends Comparable<E>> extends BSTWithRotate<E>
 				if (current.balance > AVLNode.RIGHT_HEAVY)
 				{
 					increase = false;
-					return rebalanceRight(current);
+					current = rebalanceRight(current);
 				}
 			}
 			return current;
 		}
+	}
+	@Override
+	public E delete(E object)
+	{
+		increase = false;
+		root = delete( (AVLNode<E>) root, object);
+		return deleteReturn;
+	}
+	public AVLNode<E> delete(AVLNode<E> current, E object)
+	{
+		return null;
 	}
 	
 	private AVLNode<E> rebalanceLeft(AVLNode<E> current)
@@ -89,7 +105,7 @@ public class AVLTree<E extends Comparable<E>> extends BSTWithRotate<E>
 				leftChild.balance = AVLNode.BALANCED;
 				current.balance = AVLNode.BALANCED;
 			}
-			
+			System.out.println("RebalanceLeft: RotateLeft:");
 			current.left = rotateLeft(leftChild);
 		}
 		else
@@ -98,7 +114,9 @@ public class AVLTree<E extends Comparable<E>> extends BSTWithRotate<E>
 			current.balance = AVLNode.BALANCED;
 		}
 		
-		return (AVLNode<E>) rotateRight(current);
+		System.out.println("RebalanceLeft: RotateRight:");
+		current = (AVLNode<E>) rotateRight(current);
+		return current;
 	}
 	
 	private AVLNode<E> rebalanceRight(AVLNode<E> current)
@@ -109,15 +127,15 @@ public class AVLTree<E extends Comparable<E>> extends BSTWithRotate<E>
 		{
 			AVLNode<E> rightLeftChild = (AVLNode<E>) rightChild.left;
 			
-			if (rightLeftChild.balance < AVLNode.BALANCED)
+			if (rightLeftChild.balance > AVLNode.BALANCED)
 			{
 				rightChild.balance = AVLNode.BALANCED;
 				rightLeftChild.balance = AVLNode.BALANCED;
-				current.balance = AVLNode.RIGHT_HEAVY;
+				current.balance = AVLNode.LEFT_HEAVY;
 			}
-			else if (rightLeftChild.balance > AVLNode.BALANCED)
+			else if (rightLeftChild.balance < AVLNode.BALANCED)
 			{
-				rightChild.balance = AVLNode.LEFT_HEAVY;
+				rightChild.balance = AVLNode.RIGHT_HEAVY;
 				rightLeftChild.balance = AVLNode.BALANCED;
 				current.balance = AVLNode.BALANCED;
 			}
@@ -127,6 +145,7 @@ public class AVLTree<E extends Comparable<E>> extends BSTWithRotate<E>
 				current.balance = AVLNode.BALANCED;
 			}
 			
+			System.out.println("RebalanceRight: RotateRight:");
 			current.right = rotateRight(rightChild);
 		}
 		else
@@ -135,7 +154,9 @@ public class AVLTree<E extends Comparable<E>> extends BSTWithRotate<E>
 			current.balance = AVLNode.BALANCED;
 		}
 		
-		return (AVLNode<E>) rotateLeft(current);
+		System.out.println("RebalanceRight: RotateLeft:");
+		current = (AVLNode<E>) rotateLeft(current);
+		return current;
 	}
 	
 	private void decrementBalance(AVLNode<E> node)
@@ -160,7 +181,7 @@ public class AVLTree<E extends Comparable<E>> extends BSTWithRotate<E>
 	{
 		public static final int LEFT_HEAVY = -1;
 		public static final int BALANCED = 0;
-		public static final int RIGHT_HEAVY = -1;
+		public static final int RIGHT_HEAVY = 1;
 		
 		private int balance;
 		
