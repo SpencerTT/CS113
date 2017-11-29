@@ -10,5 +10,11 @@ public class AVLTreeDriver
 			tree.add(word);
 			System.out.println(tree.toString());
 		}
+		tree.remove("dog");
+		System.out.println(tree.toString());
+		tree.remove("fox");
+		System.out.println(tree.toString());
+		tree.remove("The");
+		System.out.println(tree.toString());
 	}
 }

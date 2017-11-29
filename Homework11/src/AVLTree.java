@@ -2,6 +2,7 @@
 public class AVLTree<E extends Comparable<E>> extends BSTWithRotate<E>
 {
 	private boolean increase;
+	private boolean decrease;
 	
 	@Override
 	public boolean add(E object)
@@ -77,7 +78,81 @@ public class AVLTree<E extends Comparable<E>> extends BSTWithRotate<E>
 	}
 	public AVLNode<E> delete(AVLNode<E> current, E object)
 	{
-		return null;
+		if (current == null)
+		{
+			System.out.println("not found case");
+			deleteReturn = null;
+			decrease = false;
+			return null;
+		}
+		else if (object.compareTo(current.data) < 0)
+		{
+			System.out.println("< 0 case");
+			current.left = delete( (AVLNode<E>) current.left, object);
+			
+			if (decrease)
+			{
+				incrementBalance(current);
+				if (current.balance != AVLNode.BALANCED)
+				{
+					decrease = false;
+				}
+				if (current.balance > AVLNode.RIGHT_HEAVY)
+				{
+					decrease = false;
+					current = rebalanceRight(current);
+				}
+			}
+			return current;
+		}
+		else if (object.compareTo(current.data) > 0)
+		{
+			System.out.println("> 0 case");
+			current.right = delete( (AVLNode<E>) current.right, object);
+			
+			if (decrease)
+			{
+				decrementBalance(current);
+				if (current.balance != AVLNode.BALANCED)
+				{
+					decrease = false;
+				}
+				if (current.balance < AVLNode.LEFT_HEAVY)
+				{
+					decrease = false;
+					current = rebalanceLeft(current);
+				}
+			}
+			return current;
+		}
+		else
+		{
+			System.out.println("found case");
+			deleteReturn = current.data;
+			decrease = true;
+			if (current.left == null)
+			{
+				return (AVLNode<E>) current.right;
+			}
+			else if (current.right == null)
+			{
+				return (AVLNode<E>) current.left;
+			}
+			else
+			{
+				if (current.left.right == null)
+				{
+					current.data = current.left.data;
+					current.left = current.left.left;
+					return current;
+				}
+				else
+				{
+					current.data = findLargestChild(current.left);
+					return current;
+				}
+			}
+		}
 	}
 	
 	private AVLNode<E> rebalanceLeft(AVLNode<E> current)
@@ -165,6 +240,7 @@ public class AVLTree<E extends Comparable<E>> extends BSTWithRotate<E>
 		if (node.balance == AVLNode.BALANCED)
 		{
 			increase = false;
+			//decrease = false;
 		}
 	}
 	
@@ -174,6 +250,7 @@ public class AVLTree<E extends Comparable<E>> extends BSTWithRotate<E>
 		if (node.balance == AVLNode.BALANCED)
 		{
 			increase = false;
+			//decrease = false;
 		}
 	}
 	

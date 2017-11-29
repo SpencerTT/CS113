@@ -125,7 +125,7 @@ public class BST<E extends Comparable<E>> extends BinaryTree<E> implements Searc
 		}
 	}
 	
-	private E findLargestChild(Node<E> current)
+	protected E findLargestChild(Node<E> current)
 	{
 		if (current.right.right == null)
 		{
