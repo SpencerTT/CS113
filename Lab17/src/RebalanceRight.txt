@@ -1,0 +1,45 @@
+/**
+	 * A right-rebalance is performed on the node current
+	 * 
+	 * @param current the node the rebalancing is being performed on
+	 * @return the rebalanced node
+	 */
+	private AVLNode<E> rebalanceRight(AVLNode<E> current)
+	{
+		AVLNode<E> rightChild = (AVLNode<E>) current.right;
+		
+		if (rightChild.balance < AVLNode.BALANCED)
+		{
+			AVLNode<E> rightLeftChild = (AVLNode<E>) rightChild.left;
+			
+			if (rightLeftChild.balance > AVLNode.BALANCED)
+			{
+				rightChild.balance = AVLNode.BALANCED;
+				rightLeftChild.balance = AVLNode.BALANCED;
+				current.balance = AVLNode.LEFT_HEAVY;
+			}
+			else if (rightLeftChild.balance < AVLNode.BALANCED)
+			{
+				rightChild.balance = AVLNode.RIGHT_HEAVY;
+				rightLeftChild.balance = AVLNode.BALANCED;
+				current.balance = AVLNode.BALANCED;
+			}
+			else
+			{
+				rightChild.balance = AVLNode.BALANCED;
+				current.balance = AVLNode.BALANCED;
+			}
+			
+			System.out.println("RebalanceRight: RotateRight:");
+			current.right = rotateRight(rightChild);
+		}
+		else
+		{
+			rightChild.balance = AVLNode.BALANCED;
+			current.balance = AVLNode.BALANCED;
+		}
+		
+		System.out.println("RebalanceRight: RotateLeft:");
+		current = (AVLNode<E>) rotateLeft(current);
+		return current;
+	}

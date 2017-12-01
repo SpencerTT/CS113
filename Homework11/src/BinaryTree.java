@@ -119,8 +119,8 @@ public class BinaryTree<E> implements Serializable
 	public String toString()
 	{
 		StringBuilder sb = new StringBuilder();
-		preOrderTraverse(root, 1, sb);
-		return sb.toString();
+		int height = preOrderTraverse(root, 1, sb);
+		return sb.toString() + "Height: " + height + "\n";
 	}
 	
 	/**
@@ -129,8 +129,9 @@ public class BinaryTree<E> implements Serializable
 	 * @param node The node to start the traversal
 	 * @param depth The current depth of the traversal
 	 * @param sb The StringBuilder that will be used to store this string representation this traversal
+	 * @return The height of the tree
 	 */
-	private void preOrderTraverse(Node<E> node, int depth, StringBuilder sb)
+	private int preOrderTraverse(Node<E> node, int depth, StringBuilder sb)
 	{
 		for (int i = 1; i < depth; i++)
 		{
@@ -139,12 +140,14 @@ public class BinaryTree<E> implements Serializable
 		if (node == null)
 		{
 			sb.append("null\n");
+			return depth;
 		}
 		else
 		{
 			sb.append(node.toString() + "\n");
-			preOrderTraverse(node.left, depth + 1, sb);
-			preOrderTraverse(node.right, depth + 1, sb);
+			int a = preOrderTraverse(node.left, depth + 1, sb);
+			int b = preOrderTraverse(node.right, depth + 1, sb);
+			return (a > b) ? a : b;
 		}
 	}
 	/**
